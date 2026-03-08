@@ -1,5 +1,7 @@
 import { useState } from "react";
 import Icon from "@/components/ui/icon";
+import { useAuth } from "@/hooks/useAuth";
+import AuthModal from "@/components/AuthModal";
 
 const BOOKS = [
   {
@@ -116,6 +118,8 @@ const SHOP_ITEMS = [
 type Tab = "library" | "genres" | "ratings" | "profile";
 
 export default function Index() {
+  const { user, loading: authLoading, logout } = useAuth();
+  const [showAuth, setShowAuth] = useState(false);
   const [activeTab, setActiveTab] = useState<Tab>("library");
   const [genreFilter, setGenreFilter] = useState<string | null>(null);
   const [bookmarkedOnly, setBookmarkedOnly] = useState(false);
@@ -169,11 +173,31 @@ export default function Index() {
             ))}
           </nav>
 
-          <div className="flex items-center gap-2 bg-muted rounded-full px-3 py-1.5 border border-[#F5A623]/30 glow-gold">
-            <span className="text-gold text-sm font-bold">⚡ 2 340 XP</span>
-            <div className="w-px h-4 bg-border" />
-            <span className="text-xs text-muted-foreground">Ур. 12</span>
-          </div>
+          {user ? (
+            <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 bg-muted rounded-full px-3 py-1.5 border border-[#F5A623]/30 glow-gold">
+                <span className="text-lg">{user.avatar_emoji}</span>
+                <span className="text-gold text-sm font-bold">⚡ {user.xp.toLocaleString("ru")} XP</span>
+                <div className="w-px h-4 bg-border" />
+                <span className="text-xs text-muted-foreground">Ур. {user.level}</span>
+              </div>
+              <button
+                onClick={logout}
+                className="text-muted-foreground hover:text-foreground transition-colors"
+                title="Выйти"
+              >
+                <Icon name="LogOut" size={16} />
+              </button>
+            </div>
+          ) : (
+            <button
+              onClick={() => setShowAuth(true)}
+              disabled={authLoading}
+              className="bg-gradient-to-r from-[#F5A623] to-[#8B5CF6] text-white font-bold px-4 py-2 rounded-lg text-sm hover:opacity-90 transition-opacity"
+            >
+              Войти
+            </button>
+          )}
         </div>
 
         <div className="md:hidden flex border-t border-border">
@@ -495,41 +519,61 @@ export default function Index() {
         {/* PROFILE */}
         {activeTab === "profile" && (
           <div className="animate-fade-in">
+            {!user ? (
+              <div className="text-center py-20">
+                <div className="text-6xl mb-4">🔐</div>
+                <h2 className="font-cormorant text-3xl font-bold mb-3">Войди в аккаунт</h2>
+                <p className="text-muted-foreground mb-6">Чтобы видеть профиль, закладки и XP — нужно войти</p>
+                <button
+                  onClick={() => setShowAuth(true)}
+                  className="bg-gradient-to-r from-[#F5A623] to-[#8B5CF6] text-white font-bold px-8 py-3 rounded-xl hover:opacity-90 transition-opacity"
+                >
+                  Войти или зарегистрироваться
+                </button>
+              </div>
+            ) : (
+            <>
             <div className="relative rounded-2xl overflow-hidden border border-border mb-8">
               <div className="h-32 bg-gradient-to-r from-[#1a1040] via-[#2D1B69] to-[#0d2929]" />
               <div className="px-6 pb-6">
                 <div className="flex items-end gap-4 -mt-12 mb-4">
                   <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-[#F5A623] to-[#8B5CF6] flex items-center justify-center text-4xl border-4 border-background xp-pulse">
-                    🧑‍🚀
+                    {user.avatar_emoji}
                   </div>
                   <div className="pb-1">
-                    <h2 className="font-cormorant font-bold text-2xl">Космический Читатель</h2>
-                    <p className="text-muted-foreground text-sm">@bookverse_user</p>
+                    <h2 className="font-cormorant font-bold text-2xl">{user.display_name}</h2>
+                    <p className="text-muted-foreground text-sm">@{user.nickname}</p>
                   </div>
                   <button className="ml-auto mb-1 border border-border px-3 py-1.5 rounded-lg text-sm hover:border-[#8B5CF6] transition-colors flex items-center gap-1.5">
                     <Icon name="Edit2" size={13} /> Изменить
                   </button>
                 </div>
-                <p className="text-muted-foreground text-sm mb-4 max-w-lg">
-                  Исследую книжные галактики с 2023 года. Люблю фантастику и классику.
-                </p>
+                {user.bio && (
+                  <p className="text-muted-foreground text-sm mb-4 max-w-lg">{user.bio}</p>
+                )}
                 <div className="flex flex-wrap gap-3 mb-6">
-                  <a href="#" className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-[#2DD4BF] transition-colors">
-                    <Icon name="Link" size={13} /> telegram.me/user
-                  </a>
-                  <a href="#" className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-[#8B5CF6] transition-colors">
-                    <Icon name="Instagram" size={13} /> instagram
-                  </a>
-                  <a href="#" className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-[#1da1f2] transition-colors">
-                    <Icon name="Twitter" size={13} /> twitter
-                  </a>
+                  {user.social_telegram && (
+                    <a href={user.social_telegram} className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-[#2DD4BF] transition-colors">
+                      <Icon name="Link" size={13} /> Telegram
+                    </a>
+                  )}
+                  {user.social_instagram && (
+                    <a href={user.social_instagram} className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-[#8B5CF6] transition-colors">
+                      <Icon name="Instagram" size={13} /> Instagram
+                    </a>
+                  )}
+                  {user.social_twitter && (
+                    <a href={user.social_twitter} className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-[#1da1f2] transition-colors">
+                      <Icon name="Twitter" size={13} /> Twitter
+                    </a>
+                  )}
                 </div>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   {[
-                    { label: "Книг прочитано", value: "23", icon: "📚" },
-                    { label: "Отзывов написано", value: "41", icon: "✍️" },
-                    { label: "Закладок", value: "8", icon: "🔖" },
-                    { label: "Подписчиков", value: "156", icon: "👥" },
+                    { label: "Книг прочитано", value: String(user.books_read), icon: "📚" },
+                    { label: "Отзывов написано", value: String(user.reviews_count), icon: "✍️" },
+                    { label: "Закладок", value: String(user.bookmarks_count), icon: "🔖" },
+                    { label: "Подписчиков", value: String(user.followers_count), icon: "👥" },
                   ].map((stat) => (
                     <div key={stat.label} className="bg-muted rounded-xl p-4 text-center">
                       <div className="text-2xl mb-1">{stat.icon}</div>
@@ -544,18 +588,17 @@ export default function Index() {
             <div className="book-card p-6 mb-8 border-[#F5A623]/30 glow-gold">
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <h3 className="font-cormorant text-xl font-bold">Уровень 12 — Начинающий Исследователь</h3>
-                  <p className="text-sm text-muted-foreground">2 340 / 3 000 XP до следующего уровня</p>
+                  <h3 className="font-cormorant text-xl font-bold">Уровень {user.level}</h3>
+                  <p className="text-sm text-muted-foreground">{user.xp.toLocaleString("ru")} / {(user.level * 250).toLocaleString("ru")} XP до следующего уровня</p>
                 </div>
                 <div className="text-3xl">⚡</div>
               </div>
               <div className="h-3 bg-muted rounded-full overflow-hidden">
-                <div className="progress-bar h-full" style={{ width: "78%" }} />
+                <div className="progress-bar h-full" style={{ width: `${Math.min(100, Math.round((user.xp % 250) / 250 * 100))}%` }} />
               </div>
               <div className="flex justify-between text-xs text-muted-foreground mt-2">
-                <span>2 340 XP</span>
-                <span>78%</span>
-                <span>3 000 XP</span>
+                <span>{user.xp.toLocaleString("ru")} XP</span>
+                <span>💰 {user.coins.toLocaleString("ru")} монет</span>
               </div>
             </div>
 
@@ -612,9 +655,13 @@ export default function Index() {
                 ))}
               </div>
             </div>
+            </>
+            )}
           </div>
         )}
       </main>
+
+      {showAuth && <AuthModal onClose={() => setShowAuth(false)} />}
 
       {/* Book detail modal */}
       {selectedBook && (
