@@ -1,0 +1,3 @@
+# book-social-network-gamification
+
+Initial repository setup for pr-poehali-dev/book-social-network-gamification
