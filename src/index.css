@@ -4,89 +4,53 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --background: 240 15% 6%;
+    --foreground: 45 100% 96%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 240 12% 9%;
+    --card-foreground: 45 100% 96%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 240 12% 9%;
+    --popover-foreground: 45 100% 96%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 35 100% 55%;
+    --primary-foreground: 240 15% 6%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 270 60% 55%;
+    --secondary-foreground: 45 100% 96%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 240 10% 14%;
+    --muted-foreground: 240 10% 55%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 175 80% 45%;
+    --accent-foreground: 240 15% 6%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 240 10% 18%;
+    --input: 240 10% 14%;
+    --ring: 35 100% 55%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
 
-    --sidebar-background: 0 0% 98%;
+    --sidebar-background: 240 15% 6%;
+    --sidebar-foreground: 45 100% 96%;
+    --sidebar-primary: 35 100% 55%;
+    --sidebar-primary-foreground: 240 15% 6%;
+    --sidebar-accent: 240 12% 9%;
+    --sidebar-accent-foreground: 45 100% 96%;
+    --sidebar-border: 240 10% 18%;
+    --sidebar-ring: 35 100% 55%;
 
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* BookVerse custom */
+    --gold: #f5a623;
+    --violet: #8b5cf6;
+    --teal: #2dd4bf;
+    --rose: #f43f5e;
+    --glow-gold: 0 0 20px rgba(245, 166, 35, 0.4);
+    --glow-violet: 0 0 20px rgba(139, 92, 246, 0.4);
+    --glow-teal: 0 0 20px rgba(45, 212, 191, 0.4);
   }
 }
 
@@ -97,5 +61,191 @@
 
   body {
     @apply bg-background text-foreground;
+    font-family: "Golos Text", sans-serif;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: "Cormorant", serif;
+  }
+}
+
+@layer utilities {
+  .glow-gold {
+    box-shadow: var(--glow-gold);
+  }
+  .glow-violet {
+    box-shadow: var(--glow-violet);
+  }
+  .glow-teal {
+    box-shadow: var(--glow-teal);
+  }
+
+  .text-gold {
+    color: var(--gold);
+  }
+  .text-violet-custom {
+    color: var(--violet);
+  }
+  .text-teal-custom {
+    color: var(--teal);
+  }
+  .text-rose-custom {
+    color: var(--rose);
+  }
+
+  .bg-gold {
+    background-color: var(--gold);
+  }
+  .bg-violet-custom {
+    background-color: var(--violet);
+  }
+  .bg-teal-custom {
+    background-color: var(--teal);
+  }
+
+  .gradient-text {
+    background: linear-gradient(
+      135deg,
+      var(--gold),
+      var(--violet),
+      var(--teal)
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .card-hover {
+    transition:
+      transform 0.25s ease,
+      box-shadow 0.25s ease;
+  }
+  .card-hover:hover {
+    transform: translateY(-4px);
+    box-shadow:
+      0 12px 40px rgba(0, 0, 0, 0.4),
+      var(--glow-violet);
+  }
+
+  .progress-bar {
+    background: linear-gradient(90deg, var(--gold), var(--violet));
+    border-radius: 999px;
+    height: 8px;
+    transition: width 0.6s ease;
+  }
+
+  .badge-shine {
+    position: relative;
+    overflow: hidden;
+  }
+  .badge-shine::after {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -60%;
+    width: 40%;
+    height: 200%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.3),
+      transparent
+    );
+    transform: skewX(-20deg);
+    animation: shine 3s infinite;
+  }
+  @keyframes shine {
+    0% {
+      left: -60%;
+    }
+    100% {
+      left: 160%;
+    }
+  }
+
+  .particle {
+    position: absolute;
+    border-radius: 50%;
+    animation: float-particle 4s ease-in-out infinite;
+  }
+  @keyframes float-particle {
+    0%,
+    100% {
+      transform: translateY(0) scale(1);
+      opacity: 0.6;
+    }
+    50% {
+      transform: translateY(-20px) scale(1.1);
+      opacity: 1;
+    }
+  }
+
+  .nav-link {
+    position: relative;
+    transition: color 0.2s;
+  }
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--gold), var(--violet));
+    border-radius: 999px;
+    transition: width 0.3s ease;
+  }
+  .nav-link:hover::after,
+  .nav-link.active::after {
+    width: 100%;
+  }
+
+  .book-card {
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+    border-radius: var(--radius);
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+  .book-card:hover {
+    border-color: var(--gold);
+    box-shadow: 0 0 24px rgba(245, 166, 35, 0.2);
+    transform: translateY(-6px);
+  }
+
+  .xp-pulse {
+    animation: xp-pulse 2s ease-in-out infinite;
+  }
+  @keyframes xp-pulse {
+    0%,
+    100% {
+      box-shadow: 0 0 8px rgba(245, 166, 35, 0.4);
+    }
+    50% {
+      box-shadow: 0 0 24px rgba(245, 166, 35, 0.8);
+    }
+  }
+
+  .animate-fade-in {
+    animation: fade-in 0.4s ease forwards;
+  }
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .grid-bg {
+    background-image:
+      linear-gradient(rgba(139, 92, 246, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(139, 92, 246, 0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
   }
 }
